@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="cornerRadius">6dp</dimen>
+    <dimen name="strokeWidth">0dp</dimen>
+    <dimen name="textViewMargin">16dp</dimen>
+    <dimen name="textSize">16sp</dimen>
+    <dimen name="imageViewWidth">24dp</dimen>
+    <dimen name="imageViewHeight">24dp</dimen>
+    <dimen name="imageViewMargin">16dp</dimen>
+    <dimen name="progressBarMargin">0dp</dimen>
+
+</resources>

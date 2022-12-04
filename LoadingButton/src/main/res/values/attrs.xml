@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LoadingButton">
+
+        <attr name="color" format="reference|color" />
+        <attr name="strokeColor" format="reference|color" />
+        <attr name="rippleColor" format="reference|color" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="strokeWidth" format="dimension" />
+
+        <attr name="textViewMarginTop" format="dimension" />
+        <attr name="textViewMarginBottom" format="dimension" />
+        <attr name="textViewMarginStart" format="dimension" />
+        <attr name="textViewMarginEnd" format="dimension" />
+        <attr name="text" format="string" />
+        <attr name="textColor" format="reference|color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="fontFamily" format="string"/>
+        <attr name="textIsAllCaps" format="boolean" />
+
+        <attr name="imageViewPosition" format="integer">
+            <enum name="stuck" value="5"/>
+            <enum name="free" value="6"/>
+        </attr>
+        <attr name="imageViewHorizontalBias" format="float" />
+        <attr name="imageViewVerticalBias" format="float" />
+        <attr name="imageViewAlign" format="integer">
+            <enum name="start" value="1"/>
+            <enum name="end" value="2"/>
+            <enum name="center" value="7"/>
+            <enum name="top" value="3"/>
+            <enum name="bottom" value="4"/>
+        </attr>
+        <attr name="imageViewWidth" format="dimension">
+            <enum name="fill_parent" value="-1" />
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="imageViewHeight" format="dimension">
+            <enum name="fill_parent" value="-1" />
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="imageViewMarginTop" format="dimension" />
+        <attr name="imageViewMarginBottom" format="dimension" />
+        <attr name="imageViewMarginStart" format="dimension" />
+        <attr name="imageViewMarginEnd" format="dimension" />
+        <attr name="imageViewSrcId" format="reference|color" />
+        <attr name="imageViewTint" format="reference|color" />
+        <attr name="imageViewScaleType" format="integer">
+            <enum name="centerCrop" value="6"/>
+            <enum name="center" value="5"/>
+            <enum name="fitCenter" value="3"/>
+            <enum name="centerInside" value="7"/>
+            <enum name="fitEnd" value="4"/>
+            <enum name="fitStart" value="2"/>
+            <enum name="fitXY" value="1"/>
+            <enum name="matrix" value="0"/>
+        </attr>
+
+        <attr name="progressBarWidth" format="dimension">
+            <enum name="fill_parent" value="-1" />
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="progressBarHeight" format="dimension">
+            <enum name="fill_parent" value="-1" />
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="progressBarMarginTop" format="dimension" />
+        <attr name="progressBarMarginBottom" format="dimension" />
+        <attr name="progressBarMarginStart" format="dimension" />
+        <attr name="progressBarMarginEnd" format="dimension" />
+        <attr name="progressBarColor" format="reference|color" />
+
+        <attr name="android:enabled" format="boolean" />
+
+    </declare-styleable>
+
+</resources>

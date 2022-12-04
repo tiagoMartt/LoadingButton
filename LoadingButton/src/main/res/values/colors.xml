@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color">#FFFCF2</color>
+    <color name="strokeColor">#CCC5B9</color>
+    <color name="rippleColor">#252422</color>
+    <color name="textColor">#252422</color>
+    <color name="progressBarColor">#252422</color>
+    <color name="imageTint">#00000000</color>
+
+</resources>
