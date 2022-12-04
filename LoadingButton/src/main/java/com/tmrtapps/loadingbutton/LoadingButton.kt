@@ -659,10 +659,6 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
 
-        if (isLoading) {
-            return
-        }
-
         if (enabled) {
 
             val gradientDrawable = GradientDrawable()
