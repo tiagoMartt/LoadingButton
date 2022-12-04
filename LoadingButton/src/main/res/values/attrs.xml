@@ -4,7 +4,9 @@
     <declare-styleable name="LoadingButton">
 
         <attr name="color" format="reference|color" />
+        <attr name="colorDisabled" format="reference|color" />
         <attr name="strokeColor" format="reference|color" />
+        <attr name="strokeColorDisabled" format="reference|color" />
         <attr name="rippleColor" format="reference|color" />
         <attr name="cornerRadius" format="dimension" />
         <attr name="strokeWidth" format="dimension" />
@@ -15,6 +17,7 @@
         <attr name="textViewMarginEnd" format="dimension" />
         <attr name="text" format="string" />
         <attr name="textColor" format="reference|color" />
+        <attr name="textColorDisabled" format="reference|color" />
         <attr name="textSize" format="dimension" />
         <attr name="fontFamily" format="string"/>
         <attr name="textIsAllCaps" format="boolean" />
@@ -48,6 +51,7 @@
         <attr name="imageViewMarginEnd" format="dimension" />
         <attr name="imageViewSrcId" format="reference|color" />
         <attr name="imageViewTint" format="reference|color" />
+        <attr name="imageViewTintDisabled" format="reference|color" />
         <attr name="imageViewScaleType" format="integer">
             <enum name="centerCrop" value="6"/>
             <enum name="center" value="5"/>

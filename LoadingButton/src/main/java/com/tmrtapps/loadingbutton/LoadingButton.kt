@@ -3,7 +3,6 @@ package com.tmrtapps.loadingbutton
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.util.AttributeSet
@@ -11,6 +10,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.widget.ImageView
 import androidx.annotation.*
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -46,6 +46,9 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             handleView()
         }
 
+    @ColorInt
+    var colorDisabled = ContextCompat.getColor(context, R.color.colorDisabled)
+
     var strokeWidth = context.resources.getDimensionPixelSize(R.dimen.strokeWidth)
         set(value) {
             field = value
@@ -70,6 +73,12 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
         set(value) {
             field = value
             handleView()
+        }
+
+    @ColorInt
+    var strokeColorDisabled = ContextCompat.getColor(context, R.color.strokeColorDisabled)
+        set(value) {
+            field = value
         }
 
     var textViewMarginTop = context.resources.getDimensionPixelSize(R.dimen.textViewMargin)
@@ -108,6 +117,9 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             field = value
             handleTextView()
         }
+
+    @ColorInt
+    var textColorDisabled = ContextCompat.getColor(context, R.color.textColorDisabled)
 
     var textSizeUnit = TypedValue.COMPLEX_UNIT_PX
         set(value) {
@@ -208,6 +220,9 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             handleImageView()
         }
 
+    @ColorInt
+    var imageTintDisabled = 1
+
     var imageScaleType = ImageView.ScaleType.FIT_CENTER
         set(value) {
             field = value
@@ -266,9 +281,11 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             val attributes = context.obtainStyledAttributes(it, R.styleable.LoadingButton)
 
             color = attributes.getColor(R.styleable.LoadingButton_color, color)
+            colorDisabled = attributes.getColor(R.styleable.LoadingButton_colorDisabled, colorDisabled)
             cornerRadius = attributes.getDimensionPixelSize(R.styleable.LoadingButton_cornerRadius, cornerRadius)
             strokeWidth = attributes.getDimensionPixelSize(R.styleable.LoadingButton_strokeWidth, strokeWidth)
             strokeColor = attributes.getColor(R.styleable.LoadingButton_strokeColor, strokeColor)
+            strokeColorDisabled = attributes.getColor(R.styleable.LoadingButton_strokeColorDisabled, strokeColorDisabled)
             rippleColor = attributes.getColor(R.styleable.LoadingButton_rippleColor, rippleColor)
 
             textViewMarginTop = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textViewMarginTop, textViewMarginTop)
@@ -277,6 +294,7 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             textViewMarginEnd = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textViewMarginEnd, textViewMarginEnd)
             text = if (attributes.hasValue(R.styleable.LoadingButton_text)) attributes.getString(R.styleable.LoadingButton_text)!! else text
             textColor = attributes.getColor(R.styleable.LoadingButton_textColor, textColor)
+            textColorDisabled = attributes.getColor(R.styleable.LoadingButton_textColorDisabled, textColorDisabled)
             textSize = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textSize, textSize)
             fontFamilyResId = attributes.getResourceId(R.styleable.LoadingButton_fontFamily, -1)
             textIsAllCaps = attributes.getBoolean(R.styleable.LoadingButton_textIsAllCaps, textIsAllCaps)
@@ -293,6 +311,7 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             imageViewMarginEnd = attributes.getDimensionPixelSize(R.styleable.LoadingButton_imageViewMarginEnd, imageViewMarginEnd)
             imageViewSrcId = attributes.getResourceId(R.styleable.LoadingButton_imageViewSrcId, imageViewSrcId)
             imageTint = attributes.getColor(R.styleable.LoadingButton_imageViewTint, imageTint)
+            imageTintDisabled = attributes.getColor(R.styleable.LoadingButton_imageViewTintDisabled, imageTintDisabled)
             imageScaleType = intToImageViewScaleType(attributes.getInt(R.styleable.LoadingButton_imageViewScaleType, 3))
 
             progressBarWidth = attributes.getLayoutDimension(R.styleable.LoadingButton_progressBarWidth, progressBarWidth)
@@ -314,7 +333,7 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
                 if (hasFocus) {
                     animate().cancel()
-                    animate().scaleY(0.95f).scaleX(0.95f).setDuration(100).start()
+                    animate().scaleY(0.90f).scaleX(0.90f).setDuration(100).start()
                 } else {
                     animate().cancel()
                     animate().scaleY(1.0f).scaleX(1.0f).setDuration(100).start()
@@ -628,7 +647,7 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
         if (visibility == View.INVISIBLE || visibility == View.GONE) return
 
         animate().cancel()
-        animate().scaleX(0.95f).scaleY(0.95f).alpha(0f).setDuration(100).setInterpolator(FastOutSlowInInterpolator()).withEndAction {
+        animate().scaleX(0.85f).scaleY(0.85f).alpha(0f).setDuration(100).setInterpolator(FastOutSlowInInterpolator()).withEndAction {
             visibility = View.GONE
         }.start()
     }
@@ -651,11 +670,32 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
         if (enabled) {
-            animate().cancel()
-            animate().alpha(1f).setDuration(200).start()
+
+            val gradientDrawable = GradientDrawable()
+            gradientDrawable.shape = GradientDrawable.RECTANGLE
+            gradientDrawable.cornerRadius = cornerRadius.toFloat()
+            gradientDrawable.setColor(color)
+            gradientDrawable.setStroke(strokeWidth, strokeColor)
+            val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
+            background = rippleDrawable
+
+            binding.textView.setTextColor(textColor)
+
+            if (imageTint != 1) binding.imageView.imageTintList = ColorStateList.valueOf(imageTint)
+
         } else {
-            animate().cancel()
-            animate().alpha(0.6f).setDuration(200).start()
+
+            val gradientDrawable = GradientDrawable()
+            gradientDrawable.shape = GradientDrawable.RECTANGLE
+            gradientDrawable.cornerRadius = cornerRadius.toFloat()
+            gradientDrawable.setColor(colorDisabled)
+            gradientDrawable.setStroke(strokeWidth, strokeColorDisabled)
+            val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
+            background = rippleDrawable
+
+            binding.textView.setTextColor(textColorDisabled)
+
+            if (imageTintDisabled != 1) binding.imageView.imageTintList = ColorStateList.valueOf(imageTintDisabled)
         }
     }
 
@@ -669,7 +709,7 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     animate().cancel()
-                    animate().scaleY(0.95f).scaleX(0.95f).setDuration(100).start()
+                    animate().scaleY(0.90f).scaleX(0.90f).setDuration(100).start()
                 }
 
                 if (event.action == MotionEvent.ACTION_UP) {
