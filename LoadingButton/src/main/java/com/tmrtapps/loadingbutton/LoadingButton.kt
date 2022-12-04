@@ -1,5 +1,7 @@
 package com.tmrtapps.loadingbutton
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
@@ -661,31 +663,73 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
         if (enabled) {
 
-            val gradientDrawable = GradientDrawable()
-            gradientDrawable.shape = GradientDrawable.RECTANGLE
-            gradientDrawable.cornerRadius = cornerRadius.toFloat()
-            gradientDrawable.setColor(color)
-            gradientDrawable.setStroke(strokeWidth, strokeColor)
-            val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
-            background = rippleDrawable
+            val ca1 = ValueAnimator.ofObject(ArgbEvaluator(), colorDisabled, color)
+            ca1.duration = 150
+            ca1.addUpdateListener { animator ->
+                val c = animator.animatedValue as Int
+                val gradientDrawable = GradientDrawable()
+                gradientDrawable.shape = GradientDrawable.RECTANGLE
+                gradientDrawable.cornerRadius = cornerRadius.toFloat()
+                gradientDrawable.setColor(c)
+                gradientDrawable.setStroke(strokeWidth, strokeColorDisabled)
+                val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
+                background = rippleDrawable
+            }
+            ca1.start()
 
-            binding.textView.setTextColor(textColor)
+            val ca2 = ValueAnimator.ofObject(ArgbEvaluator(), textColorDisabled, textColor)
+            ca2.duration = 150
+            ca2.addUpdateListener { animator ->
+                val c = animator.animatedValue as Int
+                binding.textView.setTextColor(c)
+            }
+            ca2.start()
 
-            if (imageTint != 1) binding.imageView.imageTintList = ColorStateList.valueOf(imageTint)
+            if (imageTint != 1 && imageTintDisabled != 1) {
+
+                val ca3 = ValueAnimator.ofObject(ArgbEvaluator(), imageTintDisabled, imageTint)
+                ca3.duration = 150
+                ca3.addUpdateListener { animator ->
+                    val c = animator.animatedValue as Int
+                    binding.imageView.imageTintList = ColorStateList.valueOf(c)
+                }
+                ca3.start()
+            }
 
         } else {
 
-            val gradientDrawable = GradientDrawable()
-            gradientDrawable.shape = GradientDrawable.RECTANGLE
-            gradientDrawable.cornerRadius = cornerRadius.toFloat()
-            gradientDrawable.setColor(colorDisabled)
-            gradientDrawable.setStroke(strokeWidth, strokeColorDisabled)
-            val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
-            background = rippleDrawable
+            val ca1 = ValueAnimator.ofObject(ArgbEvaluator(), color, colorDisabled)
+            ca1.duration = 150
+            ca1.addUpdateListener { animator ->
+                val c = animator.animatedValue as Int
+                val gradientDrawable = GradientDrawable()
+                gradientDrawable.shape = GradientDrawable.RECTANGLE
+                gradientDrawable.cornerRadius = cornerRadius.toFloat()
+                gradientDrawable.setColor(c)
+                gradientDrawable.setStroke(strokeWidth, strokeColorDisabled)
+                val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
+                background = rippleDrawable
+            }
+            ca1.start()
 
-            binding.textView.setTextColor(textColorDisabled)
+            val ca2 = ValueAnimator.ofObject(ArgbEvaluator(), textColor, textColorDisabled)
+            ca2.duration = 150
+            ca2.addUpdateListener { animator ->
+                val c = animator.animatedValue as Int
+                binding.textView.setTextColor(c)
+            }
+            ca2.start()
 
-            if (imageTintDisabled != 1) binding.imageView.imageTintList = ColorStateList.valueOf(imageTintDisabled)
+            if (imageTint != 1 && imageTintDisabled != 1) {
+
+                val ca3 = ValueAnimator.ofObject(ArgbEvaluator(), imageTint, imageTintDisabled)
+                ca3.duration = 150
+                ca3.addUpdateListener { animator ->
+                    val c = animator.animatedValue as Int
+                    binding.imageView.imageTintList = ColorStateList.valueOf(c)
+                }
+                ca3.start()
+            }
         }
     }
 
