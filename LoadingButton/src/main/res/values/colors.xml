@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color">#FFFCF2</color>
-    <color name="colorDisabled">#FFC400</color>
-    <color name="strokeColor">#CCC5B9</color>
-    <color name="strokeColorDisabled">#CCC5B9</color>
-    <color name="rippleColor">#252422</color>
-    <color name="textColor">#252422</color>
-    <color name="textColorDisabled">#FFAA00</color>
-    <color name="progressBarColor">#252422</color>
-    <color name="imageTint">#00000000</color>
-    <color name="imageTintDisabled">#00000000</color>
+    <color name="color">#525e94</color>
+    <color name="colorDisabled">#6b78ad</color>
+    <color name="strokeColor">#2e3452</color>
+    <color name="strokeColorDisabled">#404973</color>
+    <color name="rippleColor">#4E4D4A</color>
+    <color name="textColor">#0d0d0c</color>
+    <color name="textColorDisabled">#282725</color>
+    <color name="progressBarColor">#FFFFFF</color>
 
 </resources>
