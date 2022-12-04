@@ -575,9 +575,6 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
                 binding.textView.visibility = View.INVISIBLE
             }.start()
 
-            animate().cancel()
-            animate().alpha(0.6f).setDuration(200).start()
-
         } else {
 
             isEnabled = true
@@ -596,9 +593,6 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             binding.textView.visibility = View.VISIBLE
             binding.textView.animate().cancel()
             binding.textView.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(125).start()
-
-            animate().cancel()
-            animate().alpha(1f).setDuration(200).start()
         }
     }
 
