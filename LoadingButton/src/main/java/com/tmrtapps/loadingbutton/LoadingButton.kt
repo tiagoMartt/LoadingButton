@@ -642,6 +642,10 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
         if (visibility == View.INVISIBLE || visibility == View.GONE) return
 
+        scaleX = 1f
+        scaleY = 1f
+        alpha = 1f
+
         animate().cancel()
         animate().scaleX(0.85f).scaleY(0.85f).alpha(0f).setDuration(100).setInterpolator(FastOutSlowInInterpolator()).withEndAction {
             visibility = View.GONE
@@ -654,8 +658,12 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
         visibility = View.VISIBLE
 
+        scaleX = 0.85f
+        scaleY = 0.85f
+        alpha = 0f
+
         animate().cancel()
-        animate().scaleX(1f).scaleY(1f).alpha(if (isEnabled) 1f else 0.6f).setDuration(100).setInterpolator(FastOutSlowInInterpolator()).start()
+        animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(100).setInterpolator(FastOutSlowInInterpolator()).start()
     }
 
     override fun setEnabled(enabled: Boolean) {
