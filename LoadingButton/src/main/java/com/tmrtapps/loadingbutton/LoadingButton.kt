@@ -667,7 +667,8 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     override fun setEnabled(enabled: Boolean) {
-        super.setEnabled(enabled)
+
+        if (enabled == isEnabled) return
 
         if (enabled) {
 
@@ -739,6 +740,8 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
                 ca3.start()
             }
         }
+
+        super.setEnabled(enabled)
     }
 
     @SuppressLint("ClickableViewAccessibility")
