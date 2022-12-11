@@ -7,9 +7,12 @@
         <attr name="colorDisabled" format="reference|color" />
         <attr name="strokeColor" format="reference|color" />
         <attr name="strokeColorDisabled" format="reference|color" />
+        <attr name="strokeWidth" format="dimension" />
         <attr name="rippleColor" format="reference|color" />
         <attr name="cornerRadius" format="dimension" />
-        <attr name="strokeWidth" format="dimension" />
+        <attr name="animScaleX" format="float" />
+        <attr name="animScaleY" format="float" />
+        <attr name="animDuration" format="float" />
 
         <attr name="textViewMarginTop" format="dimension" />
         <attr name="textViewMarginBottom" format="dimension" />

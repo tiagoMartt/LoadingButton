@@ -2,7 +2,6 @@ package com.tmrtapps.loadingbutton
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
@@ -10,7 +9,6 @@ import android.graphics.drawable.RippleDrawable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.ImageView
@@ -51,6 +49,19 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
     @ColorInt
     var colorDisabled = ContextCompat.getColor(context, R.color.colorDisabled)
 
+    @ColorInt
+    var strokeColor = 0
+        set(value) {
+            field = value
+            handleView()
+        }
+
+    @ColorInt
+    var strokeColorDisabled = ContextCompat.getColor(context, R.color.strokeColorDisabled)
+        set(value) {
+            field = value
+        }
+
     var strokeWidth = context.resources.getDimensionPixelSize(R.dimen.strokeWidth)
         set(value) {
             field = value
@@ -70,18 +81,11 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             handleView()
         }
 
-    @ColorInt
-    var strokeColor = 0
-        set(value) {
-            field = value
-            handleView()
-        }
+    var animScaleX = .90f
 
-    @ColorInt
-    var strokeColorDisabled = ContextCompat.getColor(context, R.color.strokeColorDisabled)
-        set(value) {
-            field = value
-        }
+    var animScaleY = .90f
+
+    var animDuration= 100f
 
     var textViewMarginTop = context.resources.getDimensionPixelSize(R.dimen.textViewMargin)
         set(value) {
@@ -284,11 +288,14 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
             color = attributes.getColor(R.styleable.LoadingButton_color, color)
             colorDisabled = attributes.getColor(R.styleable.LoadingButton_colorDisabled, colorDisabled)
-            cornerRadius = attributes.getDimensionPixelSize(R.styleable.LoadingButton_cornerRadius, cornerRadius)
-            strokeWidth = attributes.getDimensionPixelSize(R.styleable.LoadingButton_strokeWidth, strokeWidth)
             strokeColor = attributes.getColor(R.styleable.LoadingButton_strokeColor, strokeColor)
             strokeColorDisabled = attributes.getColor(R.styleable.LoadingButton_strokeColorDisabled, strokeColorDisabled)
+            strokeWidth = attributes.getDimensionPixelSize(R.styleable.LoadingButton_strokeWidth, strokeWidth)
             rippleColor = attributes.getColor(R.styleable.LoadingButton_rippleColor, rippleColor)
+            cornerRadius = attributes.getDimensionPixelSize(R.styleable.LoadingButton_cornerRadius, cornerRadius)
+            animScaleX = attributes.getFloat(R.styleable.LoadingButton_animScaleX, animScaleX)
+            animScaleY = attributes.getFloat(R.styleable.LoadingButton_animScaleY, animScaleY)
+            animDuration = attributes.getFloat(R.styleable.LoadingButton_animDuration, animDuration)
 
             textViewMarginTop = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textViewMarginTop, textViewMarginTop)
             textViewMarginBottom = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textViewMarginBottom, textViewMarginBottom)
@@ -335,7 +342,7 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
                 if (hasFocus) {
                     animate().cancel()
-                    animate().scaleY(0.90f).scaleX(0.90f).setDuration(100).start()
+                    animate().scaleY(animScaleX).scaleX(animScaleY).setDuration(100).start()
                 } else {
                     animate().cancel()
                     animate().scaleY(1.0f).scaleX(1.0f).setDuration(100).start()
@@ -744,26 +751,17 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
         super.setEnabled(enabled)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
 
         if (l != null) {
 
-            setOnTouchListener { _, event ->
+            val myOnTouchListener = MyOnTouchListener()
+            myOnTouchListener.scaleX = animScaleX
+            myOnTouchListener.scaleY = animScaleY
+            myOnTouchListener.duration = animDuration.toLong()
 
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    animate().cancel()
-                    animate().scaleY(0.90f).scaleX(0.90f).setDuration(100).start()
-                }
-
-                if (event.action == MotionEvent.ACTION_UP) {
-                    animate().cancel()
-                    animate().scaleY(1.0f).scaleX(1.0f).setDuration(100).start()
-                }
-
-                return@setOnTouchListener false
-            }
+            setOnTouchListener(myOnTouchListener)
 
         } else {
 
