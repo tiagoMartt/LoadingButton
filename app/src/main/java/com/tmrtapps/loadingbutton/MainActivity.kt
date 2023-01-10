@@ -2,6 +2,7 @@ package com.tmrtapps.loadingbutton
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.tmrtapps.loadingbutton.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -12,9 +13,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.loadingButton.setOnClickListener {
-
-        }
     }
 }

@@ -1,5 +1,6 @@
 package com.tmrtapps.loadingbutton
 
+import android.animation.AnimatorInflater
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
@@ -10,7 +11,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.widget.ImageView
 import androidx.annotation.*
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -40,88 +40,88 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
     @ColorInt
-    var color = ContextCompat.getColor(context, R.color.color)
+    var buttonColor = ContextCompat.getColor(context, R.color.buttonColor)
         set(value) {
             field = value
-            handleView()
+            view()
         }
 
     @ColorInt
-    var colorDisabled = ContextCompat.getColor(context, R.color.colorDisabled)
+    var buttonColorDisabled = ContextCompat.getColor(context, R.color.buttonColorDisabled)
 
     @ColorInt
-    var strokeColor = 0
+    var buttonStrokeColor = ContextCompat.getColor(context, R.color.buttonStrokeColor)
         set(value) {
             field = value
-            handleView()
-        }
-
-    @ColorInt
-    var strokeColorDisabled = ContextCompat.getColor(context, R.color.strokeColorDisabled)
-        set(value) {
-            field = value
-        }
-
-    var strokeWidth = context.resources.getDimensionPixelSize(R.dimen.strokeWidth)
-        set(value) {
-            field = value
-            handleView()
+            view()
         }
 
     @ColorInt
-    var rippleColor = ContextCompat.getColor(context, R.color.rippleColor)
+    var buttonStrokeColorDisabled = ContextCompat.getColor(context, R.color.buttonStrokeColorDisabled)
         set(value) {
             field = value
-            handleView()
         }
 
-    var cornerRadius = context.resources.getDimensionPixelSize(R.dimen.cornerRadius)
+    @Dimension
+    var buttonStrokeWidth = context.resources.getDimensionPixelSize(R.dimen.buttonStrokeWidth)
         set(value) {
             field = value
-            handleView()
+            view()
         }
 
-    var animScaleX = .90f
-
-    var animScaleY = .90f
-
-    var animDuration= 100f
-
-    var textViewMarginTop = context.resources.getDimensionPixelSize(R.dimen.textViewMargin)
+    @ColorInt
+    var buttonRippleColor = ContextCompat.getColor(context, R.color.buttonRippleColor)
         set(value) {
             field = value
-            handleTextView()
+            view()
         }
 
-    var textViewMarginBottom = context.resources.getDimensionPixelSize(R.dimen.textViewMargin)
+    @Dimension
+    var buttonCornerRadius = context.resources.getDimensionPixelSize(R.dimen.buttonCornerRadius)
         set(value) {
             field = value
-            handleTextView()
+            view()
         }
 
-    var textViewMarginStart = context.resources.getDimensionPixelSize(R.dimen.textViewMargin)
+    @Dimension
+    var textMarginTop = context.resources.getDimensionPixelSize(R.dimen.textMargin)
         set(value) {
             field = value
-            handleTextView()
+            textView()
         }
 
-    var textViewMarginEnd = context.resources.getDimensionPixelSize(R.dimen.textViewMargin)
+    @Dimension
+    var textMarginBottom = context.resources.getDimensionPixelSize(R.dimen.textMargin)
         set(value) {
             field = value
-            handleTextView()
+            textView()
+        }
+
+    @Dimension
+    var textMarginStart = context.resources.getDimensionPixelSize(R.dimen.textMargin)
+        set(value) {
+            field = value
+            textView()
+        }
+
+    @Dimension
+    var textMarginEnd = context.resources.getDimensionPixelSize(R.dimen.textMargin)
+        set(value) {
+            field = value
+            textView()
         }
 
     var text = ""
         set(value) {
             field = value
-            handleTextView()
+            textView()
         }
 
     @ColorInt
     var textColor = ContextCompat.getColor(context, R.color.textColor)
         set(value) {
             field = value
-            handleTextView()
+            textView()
         }
 
     @ColorInt
@@ -130,152 +130,165 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
     var textSizeUnit = TypedValue.COMPLEX_UNIT_PX
         set(value) {
             field = value
-            handleTextView()
+            textView()
         }
 
+    @Dimension
     var textSize = context.resources.getDimensionPixelSize(R.dimen.textSize)
         set(value) {
             field = value
-            handleTextView()
+            textView()
         }
 
     @FontRes
-    var fontFamilyResId = -1
+    var textFontFamilyResId = -1
         set(value) {
             field = value
-            handleTextView()
+            textView()
         }
 
     var textIsAllCaps = true
         set(value) {
             field = value
-            handleTextView()
+            textView()
         }
 
-    var imageViewPosition = STUCK
+    var iconPosition = STUCK
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewHorizontalBias = 0.5f
+    var iconHorizontalBias = 0.5f
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewVerticalBias = 0.5f
+    var iconVerticalBias = 0.5f
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewAlign = ALIGN_START
+    var iconAlign = ALIGN_START
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewWidth = context.resources.getDimensionPixelSize(R.dimen.imageViewWidth)
+    @Dimension
+    var iconWidth = context.resources.getDimensionPixelSize(R.dimen.iconWidth)
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewHeight = context.resources.getDimensionPixelSize(R.dimen.imageViewHeight)
+    @Dimension
+    var iconHeight = context.resources.getDimensionPixelSize(R.dimen.iconHeight)
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewMarginTop = context.resources.getDimensionPixelSize(R.dimen.imageViewMargin)
+    @Dimension
+    var iconMarginTop = context.resources.getDimensionPixelSize(R.dimen.iconMargin)
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewMarginBottom = context.resources.getDimensionPixelSize(R.dimen.imageViewMargin)
+    @Dimension
+    var iconMarginBottom = context.resources.getDimensionPixelSize(R.dimen.iconMargin)
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewMarginStart = context.resources.getDimensionPixelSize(R.dimen.imageViewMargin)
+    @Dimension
+    var iconMarginStart = context.resources.getDimensionPixelSize(R.dimen.iconMargin)
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var imageViewMarginEnd = context.resources.getDimensionPixelSize(R.dimen.imageViewMargin)
+    @Dimension
+    var iconMarginEnd = context.resources.getDimensionPixelSize(R.dimen.iconMargin)
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
     @DrawableRes
-    var imageViewSrcId = -1
+    var iconSrc = -1
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
     @ColorInt
-    var imageTint = 1
+    var iconTint = ContextCompat.getColor(context, R.color.iconTint)
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
     @ColorInt
-    var imageTintDisabled = 1
+    var iconTintDisabled = ContextCompat.getColor(context, R.color.iconTintDisabled)
 
-    var imageScaleType = ImageView.ScaleType.FIT_CENTER
+    var iconScaleType = ImageView.ScaleType.FIT_CENTER
         set(value) {
             field = value
-            handleImageView()
+            imageView()
         }
 
-    var progressBarWidth = context.resources.getDimensionPixelSize(R.dimen.imageViewWidth)
+    @Dimension
+    var progressBarWidth = context.resources.getDimensionPixelSize(R.dimen.progressBarWidth)
         set(value) {
             field = value
-            handleProgressBar()
+            progressBar()
         }
 
-    var progressBarHeight = context.resources.getDimensionPixelSize(R.dimen.imageViewHeight)
+    @Dimension
+    var progressBarHeight = context.resources.getDimensionPixelSize(R.dimen.progressBarHeight)
         set(value) {
             field = value
-            handleProgressBar()
+            progressBar()
         }
 
+    @Dimension
     var progressBarMarginTop = context.resources.getDimensionPixelSize(R.dimen.progressBarMargin)
         set(value) {
             field = value
-            handleProgressBar()
+            progressBar()
         }
 
+    @Dimension
     var progressBarMarginBottom = context.resources.getDimensionPixelSize(R.dimen.progressBarMargin)
         set(value) {
             field = value
-            handleProgressBar()
+            progressBar()
         }
 
+    @Dimension
     var progressBarMarginStart = context.resources.getDimensionPixelSize(R.dimen.progressBarMargin)
         set(value) {
             field = value
-            handleProgressBar()
+            progressBar()
         }
 
+    @Dimension
     var progressBarMarginEnd = context.resources.getDimensionPixelSize(R.dimen.progressBarMargin)
         set(value) {
             field = value
-            handleProgressBar()
+            progressBar()
         }
 
     @ColorInt
     var progressBarColor = ContextCompat.getColor(context, R.color.progressBarColor)
         set(value) {
             field = value
-            handleProgressBar()
+            progressBar()
         }
 
     private val binding = LoadingButtonBinding.inflate(LayoutInflater.from(context), this, true)
@@ -286,42 +299,39 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
             val attributes = context.obtainStyledAttributes(it, R.styleable.LoadingButton)
 
-            color = attributes.getColor(R.styleable.LoadingButton_color, color)
-            colorDisabled = attributes.getColor(R.styleable.LoadingButton_colorDisabled, colorDisabled)
-            strokeColor = attributes.getColor(R.styleable.LoadingButton_strokeColor, strokeColor)
-            strokeColorDisabled = attributes.getColor(R.styleable.LoadingButton_strokeColorDisabled, strokeColorDisabled)
-            strokeWidth = attributes.getDimensionPixelSize(R.styleable.LoadingButton_strokeWidth, strokeWidth)
-            rippleColor = attributes.getColor(R.styleable.LoadingButton_rippleColor, rippleColor)
-            cornerRadius = attributes.getDimensionPixelSize(R.styleable.LoadingButton_cornerRadius, cornerRadius)
-            animScaleX = attributes.getFloat(R.styleable.LoadingButton_animScaleX, animScaleX)
-            animScaleY = attributes.getFloat(R.styleable.LoadingButton_animScaleY, animScaleY)
-            animDuration = attributes.getFloat(R.styleable.LoadingButton_animDuration, animDuration)
+            buttonColor = attributes.getColor(R.styleable.LoadingButton_buttonColor, buttonColor)
+            buttonColorDisabled = attributes.getColor(R.styleable.LoadingButton_buttonColorDisabled, buttonColorDisabled)
+            buttonStrokeColor = attributes.getColor(R.styleable.LoadingButton_buttonStrokeColor, buttonStrokeColor)
+            buttonStrokeColorDisabled = attributes.getColor(R.styleable.LoadingButton_buttonStrokeColorDisabled, buttonStrokeColorDisabled)
+            buttonStrokeWidth = attributes.getDimensionPixelSize(R.styleable.LoadingButton_buttonStrokeWidth, buttonStrokeWidth)
+            buttonRippleColor = attributes.getColor(R.styleable.LoadingButton_buttonRippleColor, buttonRippleColor)
+            buttonCornerRadius = attributes.getDimensionPixelSize(R.styleable.LoadingButton_buttonCornerRadius, buttonCornerRadius)
 
-            textViewMarginTop = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textViewMarginTop, textViewMarginTop)
-            textViewMarginBottom = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textViewMarginBottom, textViewMarginBottom)
-            textViewMarginStart = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textViewMarginStart, textViewMarginStart)
-            textViewMarginEnd = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textViewMarginEnd, textViewMarginEnd)
+            textMarginTop = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textMarginTop, textMarginTop)
+            textMarginBottom = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textMarginBottom, textMarginBottom)
+            textMarginStart = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textMarginStart, textMarginStart)
+            textMarginEnd = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textMarginEnd, textMarginEnd)
             text = if (attributes.hasValue(R.styleable.LoadingButton_text)) attributes.getString(R.styleable.LoadingButton_text)!! else text
             textColor = attributes.getColor(R.styleable.LoadingButton_textColor, textColor)
             textColorDisabled = attributes.getColor(R.styleable.LoadingButton_textColorDisabled, textColorDisabled)
             textSize = attributes.getDimensionPixelSize(R.styleable.LoadingButton_textSize, textSize)
-            fontFamilyResId = attributes.getResourceId(R.styleable.LoadingButton_fontFamily, -1)
+            textFontFamilyResId = attributes.getResourceId(R.styleable.LoadingButton_textFontFamily, -1)
             textIsAllCaps = attributes.getBoolean(R.styleable.LoadingButton_textIsAllCaps, textIsAllCaps)
 
-            imageViewPosition = attributes.getInt(R.styleable.LoadingButton_imageViewPosition, imageViewPosition)
-            imageViewHorizontalBias = attributes.getFloat(R.styleable.LoadingButton_imageViewHorizontalBias, imageViewHorizontalBias)
-            imageViewVerticalBias = attributes.getFloat(R.styleable.LoadingButton_imageViewVerticalBias, imageViewVerticalBias)
-            imageViewAlign = attributes.getInt(R.styleable.LoadingButton_imageViewAlign, ALIGN_START)
-            imageViewWidth = attributes.getLayoutDimension(R.styleable.LoadingButton_imageViewWidth, imageViewWidth)
-            imageViewHeight = attributes.getLayoutDimension(R.styleable.LoadingButton_imageViewHeight, imageViewHeight)
-            imageViewMarginTop = attributes.getDimensionPixelSize(R.styleable.LoadingButton_imageViewMarginTop, imageViewMarginTop)
-            imageViewMarginBottom = attributes.getDimensionPixelSize(R.styleable.LoadingButton_imageViewMarginBottom, imageViewMarginBottom)
-            imageViewMarginStart = attributes.getDimensionPixelSize(R.styleable.LoadingButton_imageViewMarginStart, imageViewMarginStart)
-            imageViewMarginEnd = attributes.getDimensionPixelSize(R.styleable.LoadingButton_imageViewMarginEnd, imageViewMarginEnd)
-            imageViewSrcId = attributes.getResourceId(R.styleable.LoadingButton_imageViewSrcId, imageViewSrcId)
-            imageTint = attributes.getColor(R.styleable.LoadingButton_imageViewTint, imageTint)
-            imageTintDisabled = attributes.getColor(R.styleable.LoadingButton_imageViewTintDisabled, imageTintDisabled)
-            imageScaleType = intToImageViewScaleType(attributes.getInt(R.styleable.LoadingButton_imageViewScaleType, 3))
+            iconPosition = attributes.getInt(R.styleable.LoadingButton_iconPosition, iconPosition)
+            iconHorizontalBias = attributes.getFloat(R.styleable.LoadingButton_iconHorizontalBias, iconHorizontalBias)
+            iconVerticalBias = attributes.getFloat(R.styleable.LoadingButton_iconVerticalBias, iconVerticalBias)
+            iconAlign = attributes.getInt(R.styleable.LoadingButton_iconAlign, ALIGN_START)
+            iconWidth = attributes.getLayoutDimension(R.styleable.LoadingButton_iconWidth, iconWidth)
+            iconHeight = attributes.getLayoutDimension(R.styleable.LoadingButton_iconHeight, iconHeight)
+            iconMarginTop = attributes.getDimensionPixelSize(R.styleable.LoadingButton_iconMarginTop, iconMarginTop)
+            iconMarginBottom = attributes.getDimensionPixelSize(R.styleable.LoadingButton_iconMarginBottom, iconMarginBottom)
+            iconMarginStart = attributes.getDimensionPixelSize(R.styleable.LoadingButton_iconMarginStart, iconMarginStart)
+            iconMarginEnd = attributes.getDimensionPixelSize(R.styleable.LoadingButton_iconMarginEnd, iconMarginEnd)
+            iconSrc = attributes.getResourceId(R.styleable.LoadingButton_iconSrc, iconSrc)
+            iconTint = attributes.getColor(R.styleable.LoadingButton_iconTint, iconTint)
+            iconTintDisabled = attributes.getColor(R.styleable.LoadingButton_iconTintDisabled, iconTintDisabled)
+            iconScaleType = intToImageViewScaleType(attributes.getInt(R.styleable.LoadingButton_iconScaleType, imageViewScaleTypeToInt(iconScaleType)))
 
             progressBarWidth = attributes.getLayoutDimension(R.styleable.LoadingButton_progressBarWidth, progressBarWidth)
             progressBarHeight = attributes.getLayoutDimension(R.styleable.LoadingButton_progressBarHeight, progressBarHeight)
@@ -336,37 +346,27 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             attributes.recycle()
         }
 
-        onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-
-            if (hasOnClickListeners()) {
-
-                if (hasFocus) {
-                    animate().cancel()
-                    animate().scaleY(animScaleX).scaleX(animScaleY).setDuration(100).start()
-                } else {
-                    animate().cancel()
-                    animate().scaleY(1.0f).scaleX(1.0f).setDuration(100).start()
-                }
-            }
-        }
+        isFocusable = true
+        isClickable = true
+        stateListAnimator = AnimatorInflater.loadStateListAnimator(context, R.xml.animate_scale)
     }
 
-    private fun handleView() {
+    private fun view() {
 
         val gradientDrawable = GradientDrawable()
         gradientDrawable.shape = GradientDrawable.RECTANGLE
-        gradientDrawable.cornerRadius = cornerRadius.toFloat()
-        gradientDrawable.setColor(color)
-        gradientDrawable.setStroke(strokeWidth, strokeColor)
+        gradientDrawable.cornerRadius = buttonCornerRadius.toFloat()
+        gradientDrawable.setColor(buttonColor)
+        gradientDrawable.setStroke(buttonStrokeWidth, buttonStrokeColor)
 
-        val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
+        val rippleDrawable = RippleDrawable(ColorStateList.valueOf(buttonRippleColor), gradientDrawable, null)
 
         background = rippleDrawable
     }
 
-    private fun handleTextView() {
+    private fun textView() {
 
-        binding.textView.visibility = if (text.isNotEmpty()) View.VISIBLE else View.GONE
+        binding.textView.isVisible = text.isNotEmpty()
 
         binding.textView.text = text
 
@@ -374,178 +374,158 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
         binding.textView.setTextSize(textSizeUnit, textSize.toFloat())
 
-        if (fontFamilyResId != -1) {
-            binding.textView.typeface = ResourcesCompat.getFont(context, fontFamilyResId)
-        }
-
         binding.textView.isAllCaps = textIsAllCaps
+
+        if (textFontFamilyResId != -1) {
+            binding.textView.typeface = ResourcesCompat.getFont(context, textFontFamilyResId)
+        }
 
         val constraintSet = ConstraintSet()
         constraintSet.clone(binding.root)
 
-        if (imageViewPosition == STUCK) {
+        if (iconPosition == STUCK && binding.imageView.isVisible) {
 
-            if (imageViewSrcId != -1) {
+            when (iconAlign) {
 
-                when (imageViewAlign) {
+                ALIGN_START -> {
+
+                    constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textMarginBottom)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textMarginEnd)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textMarginTop)
+                }
+
+                ALIGN_END -> {
+
+                    constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textMarginBottom)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textMarginStart)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textMarginTop)
+                }
+
+                ALIGN_CENTER -> {
+                    constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textMarginBottom)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textMarginEnd)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textMarginStart)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textMarginTop)
+                }
+
+                ALIGN_TOP -> {
+
+                    constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textMarginBottom)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textMarginEnd)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textMarginStart)
+                }
+
+                ALIGN_BOTTOM -> {
+
+                    constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textMarginEnd)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textMarginStart)
+                    constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textMarginTop)
+                }
+            }
+
+        } else {
+
+            constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textMarginBottom)
+            constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textMarginEnd)
+            constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textMarginStart)
+            constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textMarginTop)
+        }
+
+        constraintSet.applyTo(binding.root)
+    }
+
+    private fun imageView() {
+
+        binding.imageView.layoutParams = LayoutParams(iconWidth, iconHeight)
+
+        binding.imageView.isVisible = iconSrc != -1
+
+        if (iconSrc != -1) binding.imageView.setImageResource(iconSrc)
+
+        if (iconTint != 1) binding.imageView.imageTintList = ColorStateList.valueOf(iconTint)
+
+        binding.imageView.scaleType = iconScaleType
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(binding.root)
+
+        if (iconPosition == STUCK) {
+
+            if (binding.imageView.isVisible && binding.textView.isVisible) {
+
+                when (iconAlign) {
 
                     ALIGN_START -> {
 
-                        constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textViewMarginBottom)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textViewMarginEnd)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textViewMarginTop)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, iconMarginBottom)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.END, binding.textView.id, ConstraintSet.START, iconMarginEnd)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, iconMarginStart)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, iconMarginTop)
+                        constraintSet.clear(binding.textView.id, ConstraintSet.START)
                     }
 
                     ALIGN_END -> {
 
-                        constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textViewMarginBottom)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textViewMarginStart)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textViewMarginTop)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, iconMarginBottom)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, iconMarginEnd)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.START, binding.textView.id, ConstraintSet.END, iconMarginStart)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, iconMarginTop)
+                        constraintSet.clear(binding.textView.id, ConstraintSet.END)
                     }
 
                     ALIGN_CENTER -> {
-                        constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textViewMarginBottom)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textViewMarginEnd)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textViewMarginStart)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textViewMarginTop)
+
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, iconMarginBottom)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, iconMarginEnd)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, iconMarginStart)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, iconMarginTop)
                     }
 
                     ALIGN_TOP -> {
 
-                        constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textViewMarginBottom)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textViewMarginEnd)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textViewMarginStart)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, binding.textView.id, ConstraintSet.TOP, iconMarginBottom)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, iconMarginEnd)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, iconMarginStart)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, iconMarginTop)
+                        constraintSet.clear(binding.textView.id, ConstraintSet.TOP)
                     }
 
                     ALIGN_BOTTOM -> {
 
-                        constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textViewMarginEnd)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textViewMarginStart)
-                        constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textViewMarginTop)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, iconMarginBottom)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, iconMarginEnd)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, iconMarginStart)
+                        constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, binding.textView.id, ConstraintSet.BOTTOM, iconMarginTop)
+                        constraintSet.clear(binding.textView.id, ConstraintSet.BOTTOM)
+                        constraintSet.applyTo(binding.root)
                     }
                 }
 
             } else {
 
-                constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textViewMarginBottom)
-                constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textViewMarginEnd)
-                constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textViewMarginStart)
-                constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textViewMarginTop)
+                constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, iconMarginBottom)
+                constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, iconMarginEnd)
+                constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, iconMarginStart)
+                constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, iconMarginTop)
             }
 
         } else {
 
-            constraintSet.connect(binding.textView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, textViewMarginBottom)
-            constraintSet.connect(binding.textView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, textViewMarginEnd)
-            constraintSet.connect(binding.textView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, textViewMarginStart)
-            constraintSet.connect(binding.textView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, textViewMarginTop)
-        }
+            constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, iconMarginBottom)
+            constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, iconMarginEnd)
+            constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, iconMarginStart)
+            constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, iconMarginTop)
 
-        constraintSet.applyTo(binding.root)
-    }
-
-    private fun handleImageView() {
-
-        binding.imageView.layoutParams = LayoutParams(imageViewWidth, imageViewHeight)
-
-        binding.imageView.visibility = if (imageViewSrcId != -1) View.VISIBLE else View.GONE
-
-        if (imageViewSrcId != -1) binding.imageView.setImageResource(imageViewSrcId)
-
-        if (imageTint != 1) binding.imageView.imageTintList = ColorStateList.valueOf(imageTint)
-
-        binding.imageView.scaleType = imageScaleType
-
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(binding.root)
-
-        if (imageViewPosition == STUCK) {
-
-            if (binding.imageView.isVisible) {
-
-                if (binding.textView.isVisible) {
-
-                    when (imageViewAlign) {
-
-                        ALIGN_START -> {
-
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, imageViewMarginBottom)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.END, binding.textView.id, ConstraintSet.START, imageViewMarginEnd)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, imageViewMarginStart)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, imageViewMarginTop)
-                            constraintSet.clear(binding.textView.id, ConstraintSet.START)
-                        }
-
-                        ALIGN_END -> {
-
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, imageViewMarginBottom)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, imageViewMarginEnd)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.START, binding.textView.id, ConstraintSet.END, imageViewMarginStart)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, imageViewMarginTop)
-                            constraintSet.clear(binding.textView.id, ConstraintSet.END)
-                        }
-
-                        ALIGN_CENTER -> {
-
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, imageViewMarginBottom)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, imageViewMarginEnd)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, imageViewMarginStart)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, imageViewMarginTop)
-                        }
-
-                        ALIGN_TOP -> {
-
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, binding.textView.id, ConstraintSet.TOP, imageViewMarginBottom)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, imageViewMarginEnd)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, imageViewMarginStart)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, imageViewMarginTop)
-                            constraintSet.clear(binding.textView.id, ConstraintSet.TOP)
-                        }
-
-                        ALIGN_BOTTOM -> {
-
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, imageViewMarginBottom)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, imageViewMarginEnd)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, imageViewMarginStart)
-                            constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, binding.textView.id, ConstraintSet.BOTTOM, imageViewMarginTop)
-                            constraintSet.clear(binding.textView.id, ConstraintSet.BOTTOM)
-                            constraintSet.applyTo(binding.root)
-                        }
-                    }
-
-                } else {
-
-                    constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, imageViewMarginBottom)
-                    constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, imageViewMarginEnd)
-                    constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, imageViewMarginStart)
-                    constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, imageViewMarginTop)
-                }
-
-            } else {
-
-                constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, imageViewMarginBottom)
-                constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, imageViewMarginEnd)
-                constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, imageViewMarginStart)
-                constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, imageViewMarginTop)
-            }
-
-        } else {
-
-            constraintSet.connect(binding.imageView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, imageViewMarginBottom)
-            constraintSet.connect(binding.imageView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, imageViewMarginEnd)
-            constraintSet.connect(binding.imageView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, imageViewMarginStart)
-            constraintSet.connect(binding.imageView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, imageViewMarginTop)
-
-            constraintSet.setHorizontalBias(binding.imageView.id, imageViewHorizontalBias)
-            constraintSet.setVerticalBias(binding.imageView.id, imageViewVerticalBias)
+            constraintSet.setHorizontalBias(binding.imageView.id, iconHorizontalBias)
+            constraintSet.setVerticalBias(binding.imageView.id, iconVerticalBias)
         }
 
         constraintSet.applyTo(binding.root)
 
-        handleTextView()
+        textView()
     }
 
-    private fun handleProgressBar() {
+    private fun progressBar() {
 
         binding.progressBar.layoutParams = LayoutParams(progressBarWidth, progressBarHeight)
 
@@ -568,21 +548,15 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
             isEnabled = false
 
-            binding.progressBar.visibility = View.VISIBLE
+            binding.progressBar.isVisible = true
             binding.progressBar.animate().cancel()
             binding.progressBar.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(125).start()
 
-            if (imageViewSrcId != -1) {
-                binding.imageView.animate().cancel()
-                binding.imageView.animate().scaleX(0.75f).scaleY(0.75f).alpha(0f).setDuration(125).withEndAction {
-                    binding.imageView.visibility = View.INVISIBLE
-                }.start()
-            }
+            binding.imageView.animate().cancel()
+            binding.imageView.animate().scaleX(0.85f).scaleY(0.85f).alpha(0f).setDuration(125).start()
 
             binding.textView.animate().cancel()
-            binding.textView.animate().scaleX(0.75f).scaleY(0.75f).alpha(0f).setDuration(125).withEndAction {
-                binding.textView.visibility = View.INVISIBLE
-            }.start()
+            binding.textView.animate().scaleX(0.85f).scaleY(0.85f).alpha(0f).setDuration(125).start()
 
         } else {
 
@@ -593,15 +567,57 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
                 binding.progressBar.visibility = View.GONE
             }.start()
 
-            if (imageViewSrcId != -1) {
-                binding.imageView.visibility = View.VISIBLE
+            //if (binding.imageView.isVisible) {
                 binding.imageView.animate().cancel()
                 binding.imageView.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(125).start()
+            //}
+
+            //if (binding.textView.isVisible) {
+                binding.textView.animate().cancel()
+                binding.textView.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(125).start()
+            //}
+        }
+    }
+
+    private fun imageViewScaleTypeToInt(scaleType: ImageView.ScaleType): Int {
+
+        when (scaleType) {
+
+            ImageView.ScaleType.MATRIX -> {
+                return 0
             }
 
-            binding.textView.visibility = View.VISIBLE
-            binding.textView.animate().cancel()
-            binding.textView.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(125).start()
+            ImageView.ScaleType.FIT_XY -> {
+                return 1
+            }
+
+            ImageView.ScaleType.FIT_START -> {
+                return 2
+            }
+
+            ImageView.ScaleType.FIT_CENTER -> {
+                return 3
+            }
+
+            ImageView.ScaleType.FIT_END -> {
+                return 4
+            }
+
+            ImageView.ScaleType.CENTER -> {
+                return 5
+            }
+
+            ImageView.ScaleType.CENTER_CROP -> {
+                return 6
+            }
+
+            ImageView.ScaleType.CENTER_INSIDE -> {
+                return 7
+            }
+
+            else -> {
+                return 3
+            }
         }
     }
 
@@ -679,94 +695,64 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
         if (enabled) {
 
-            val ca1 = ValueAnimator.ofObject(ArgbEvaluator(), colorDisabled, color)
-            ca1.duration = 150
-            ca1.addUpdateListener { animator ->
-                val c = animator.animatedValue as Int
+            val buttonColorValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), buttonColorDisabled, buttonColor)
+            buttonColorValueAnimator.duration = 150
+            buttonColorValueAnimator.addUpdateListener { animator ->
                 val gradientDrawable = GradientDrawable()
                 gradientDrawable.shape = GradientDrawable.RECTANGLE
-                gradientDrawable.cornerRadius = cornerRadius.toFloat()
-                gradientDrawable.setColor(c)
-                gradientDrawable.setStroke(strokeWidth, strokeColorDisabled)
-                val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
+                gradientDrawable.cornerRadius = buttonCornerRadius.toFloat()
+                gradientDrawable.setColor(animator.animatedValue as Int)
+                gradientDrawable.setStroke(buttonStrokeWidth, buttonStrokeColor)
+                val rippleDrawable = RippleDrawable(ColorStateList.valueOf(buttonRippleColor), gradientDrawable, null)
                 background = rippleDrawable
             }
-            ca1.start()
+            buttonColorValueAnimator.start()
 
-            val ca2 = ValueAnimator.ofObject(ArgbEvaluator(), textColorDisabled, textColor)
-            ca2.duration = 150
-            ca2.addUpdateListener { animator ->
-                val c = animator.animatedValue as Int
-                binding.textView.setTextColor(c)
+            val textColorValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), textColorDisabled, textColor)
+            textColorValueAnimator.duration = 150
+            textColorValueAnimator.addUpdateListener { animator ->
+                binding.textView.setTextColor(animator.animatedValue as Int)
             }
-            ca2.start()
+            textColorValueAnimator.start()
 
-            if (imageTint != 1 && imageTintDisabled != 1) {
-
-                val ca3 = ValueAnimator.ofObject(ArgbEvaluator(), imageTintDisabled, imageTint)
-                ca3.duration = 150
-                ca3.addUpdateListener { animator ->
-                    val c = animator.animatedValue as Int
-                    binding.imageView.imageTintList = ColorStateList.valueOf(c)
-                }
-                ca3.start()
+            val iconTintValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), iconTintDisabled, iconTint)
+            iconTintValueAnimator.duration = 150
+            iconTintValueAnimator.addUpdateListener { animator ->
+                binding.imageView.imageTintList = ColorStateList.valueOf(animator.animatedValue as Int)
             }
+            iconTintValueAnimator.start()
 
         } else {
 
-            val ca1 = ValueAnimator.ofObject(ArgbEvaluator(), color, colorDisabled)
-            ca1.duration = 150
-            ca1.addUpdateListener { animator ->
-                val c = animator.animatedValue as Int
+            val buttonColorValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), buttonColor, buttonColorDisabled)
+            buttonColorValueAnimator.duration = 150
+            buttonColorValueAnimator.addUpdateListener { animator ->
                 val gradientDrawable = GradientDrawable()
                 gradientDrawable.shape = GradientDrawable.RECTANGLE
-                gradientDrawable.cornerRadius = cornerRadius.toFloat()
-                gradientDrawable.setColor(c)
-                gradientDrawable.setStroke(strokeWidth, strokeColorDisabled)
-                val rippleDrawable = RippleDrawable(ColorStateList.valueOf(rippleColor), gradientDrawable, null)
+                gradientDrawable.cornerRadius = buttonCornerRadius.toFloat()
+                gradientDrawable.setColor(animator.animatedValue as Int)
+                gradientDrawable.setStroke(buttonStrokeWidth, buttonStrokeColorDisabled)
+                val rippleDrawable = RippleDrawable(ColorStateList.valueOf(buttonRippleColor), gradientDrawable, null)
                 background = rippleDrawable
             }
-            ca1.start()
+            buttonColorValueAnimator.start()
 
-            val ca2 = ValueAnimator.ofObject(ArgbEvaluator(), textColor, textColorDisabled)
-            ca2.duration = 150
-            ca2.addUpdateListener { animator ->
-                val c = animator.animatedValue as Int
-                binding.textView.setTextColor(c)
+            val textColorValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), textColor, textColorDisabled)
+            textColorValueAnimator.duration = 150
+            textColorValueAnimator.addUpdateListener { animator ->
+                binding.textView.setTextColor(animator.animatedValue as Int)
             }
-            ca2.start()
+            textColorValueAnimator.start()
 
-            if (imageTint != 1 && imageTintDisabled != 1) {
-
-                val ca3 = ValueAnimator.ofObject(ArgbEvaluator(), imageTint, imageTintDisabled)
-                ca3.duration = 150
-                ca3.addUpdateListener { animator ->
-                    val c = animator.animatedValue as Int
-                    binding.imageView.imageTintList = ColorStateList.valueOf(c)
-                }
-                ca3.start()
+            val iconTintValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), iconTint, iconTintDisabled)
+            iconTintValueAnimator.duration = 150
+            iconTintValueAnimator.addUpdateListener { animator ->
+                binding.imageView.imageTintList = ColorStateList.valueOf(animator.animatedValue as Int)
             }
+            iconTintValueAnimator.start()
         }
 
         super.setEnabled(enabled)
-    }
-
-    override fun setOnClickListener(l: OnClickListener?) {
-        super.setOnClickListener(l)
-
-        if (l != null) {
-
-            val myOnTouchListener = MyOnTouchListener()
-            myOnTouchListener.scaleX = animScaleX
-            myOnTouchListener.scaleY = animScaleY
-            myOnTouchListener.duration = animDuration.toLong()
-
-            setOnTouchListener(myOnTouchListener)
-
-        } else {
-
-            setOnTouchListener(null)
-        }
     }
 }
 

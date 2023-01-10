@@ -3,59 +3,56 @@
 
     <declare-styleable name="LoadingButton">
 
-        <attr name="color" format="reference|color" />
-        <attr name="colorDisabled" format="reference|color" />
-        <attr name="strokeColor" format="reference|color" />
-        <attr name="strokeColorDisabled" format="reference|color" />
-        <attr name="strokeWidth" format="dimension" />
-        <attr name="rippleColor" format="reference|color" />
-        <attr name="cornerRadius" format="dimension" />
-        <attr name="animScaleX" format="float" />
-        <attr name="animScaleY" format="float" />
-        <attr name="animDuration" format="float" />
+        <attr name="buttonColor" format="reference|color" />
+        <attr name="buttonColorDisabled" format="reference|color" />
+        <attr name="buttonStrokeColor" format="reference|color" />
+        <attr name="buttonStrokeColorDisabled" format="reference|color" />
+        <attr name="buttonStrokeWidth" format="dimension" />
+        <attr name="buttonRippleColor" format="reference|color" />
+        <attr name="buttonCornerRadius" format="dimension" />
 
-        <attr name="textViewMarginTop" format="dimension" />
-        <attr name="textViewMarginBottom" format="dimension" />
-        <attr name="textViewMarginStart" format="dimension" />
-        <attr name="textViewMarginEnd" format="dimension" />
         <attr name="text" format="string" />
+        <attr name="textMarginTop" format="dimension" />
+        <attr name="textMarginBottom" format="dimension" />
+        <attr name="textMarginStart" format="dimension" />
+        <attr name="textMarginEnd" format="dimension" />
         <attr name="textColor" format="reference|color" />
         <attr name="textColorDisabled" format="reference|color" />
         <attr name="textSize" format="dimension" />
-        <attr name="fontFamily" format="string"/>
+        <attr name="textFontFamily" format="string"/>
         <attr name="textIsAllCaps" format="boolean" />
 
-        <attr name="imageViewPosition" format="integer">
+        <attr name="iconPosition" format="integer">
             <enum name="stuck" value="5"/>
             <enum name="free" value="6"/>
         </attr>
-        <attr name="imageViewHorizontalBias" format="float" />
-        <attr name="imageViewVerticalBias" format="float" />
-        <attr name="imageViewAlign" format="integer">
+        <attr name="iconHorizontalBias" format="float" />
+        <attr name="iconVerticalBias" format="float" />
+        <attr name="iconAlign" format="integer">
             <enum name="start" value="1"/>
             <enum name="end" value="2"/>
             <enum name="center" value="7"/>
             <enum name="top" value="3"/>
             <enum name="bottom" value="4"/>
         </attr>
-        <attr name="imageViewWidth" format="dimension">
+        <attr name="iconWidth" format="dimension">
             <enum name="fill_parent" value="-1" />
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
         </attr>
-        <attr name="imageViewHeight" format="dimension">
+        <attr name="iconHeight" format="dimension">
             <enum name="fill_parent" value="-1" />
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
         </attr>
-        <attr name="imageViewMarginTop" format="dimension" />
-        <attr name="imageViewMarginBottom" format="dimension" />
-        <attr name="imageViewMarginStart" format="dimension" />
-        <attr name="imageViewMarginEnd" format="dimension" />
-        <attr name="imageViewSrcId" format="reference|color" />
-        <attr name="imageViewTint" format="reference|color" />
-        <attr name="imageViewTintDisabled" format="reference|color" />
-        <attr name="imageViewScaleType" format="integer">
+        <attr name="iconMarginTop" format="dimension" />
+        <attr name="iconMarginBottom" format="dimension" />
+        <attr name="iconMarginStart" format="dimension" />
+        <attr name="iconMarginEnd" format="dimension" />
+        <attr name="iconSrc" format="reference|color" />
+        <attr name="iconTint" format="reference|color" />
+        <attr name="iconTintDisabled" format="reference|color" />
+        <attr name="iconScaleType" format="integer">
             <enum name="centerCrop" value="6"/>
             <enum name="center" value="5"/>
             <enum name="fitCenter" value="3"/>
