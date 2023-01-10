@@ -227,14 +227,14 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
     @ColorInt
-    var iconTint = ContextCompat.getColor(context, R.color.iconTint)
+    var iconTint: Int? = null
         set(value) {
             field = value
             imageView()
         }
 
     @ColorInt
-    var iconTintDisabled = ContextCompat.getColor(context, R.color.iconTintDisabled)
+    var iconTintDisabled: Int? = null
 
     var iconScaleType = ImageView.ScaleType.FIT_CENTER
         set(value) {
@@ -329,8 +329,8 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             iconMarginStart = attributes.getDimensionPixelSize(R.styleable.LoadingButton_iconMarginStart, iconMarginStart)
             iconMarginEnd = attributes.getDimensionPixelSize(R.styleable.LoadingButton_iconMarginEnd, iconMarginEnd)
             iconSrc = attributes.getResourceId(R.styleable.LoadingButton_iconSrc, iconSrc)
-            iconTint = attributes.getColor(R.styleable.LoadingButton_iconTint, iconTint)
-            iconTintDisabled = attributes.getColor(R.styleable.LoadingButton_iconTintDisabled, iconTintDisabled)
+            iconTint = if (attributes.hasValue(R.styleable.LoadingButton_iconTint)) attributes.getColor(R.styleable.LoadingButton_iconTint, -1) else null
+            iconTintDisabled = if (attributes.hasValue(R.styleable.LoadingButton_iconTintDisabled)) attributes.getColor(R.styleable.LoadingButton_iconTintDisabled, -1) else null
             iconScaleType = intToImageViewScaleType(attributes.getInt(R.styleable.LoadingButton_iconScaleType, imageViewScaleTypeToInt(iconScaleType)))
 
             progressBarWidth = attributes.getLayoutDimension(R.styleable.LoadingButton_progressBarWidth, progressBarWidth)
@@ -442,7 +442,7 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
         if (iconSrc != -1) binding.imageView.setImageResource(iconSrc)
 
-        if (iconTint != 1) binding.imageView.imageTintList = ColorStateList.valueOf(iconTint)
+        if (iconTint != null) binding.imageView.imageTintList = ColorStateList.valueOf(iconTint!!)
 
         binding.imageView.scaleType = iconScaleType
 
@@ -715,12 +715,15 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             }
             textColorValueAnimator.start()
 
-            val iconTintValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), iconTintDisabled, iconTint)
-            iconTintValueAnimator.duration = 150
-            iconTintValueAnimator.addUpdateListener { animator ->
-                binding.imageView.imageTintList = ColorStateList.valueOf(animator.animatedValue as Int)
+            if (iconTint != null && iconTintDisabled != null) {
+
+                val iconTintValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), iconTintDisabled, iconTint)
+                iconTintValueAnimator.duration = 150
+                iconTintValueAnimator.addUpdateListener { animator ->
+                    binding.imageView.imageTintList = ColorStateList.valueOf(animator.animatedValue as Int)
+                }
+                iconTintValueAnimator.start()
             }
-            iconTintValueAnimator.start()
 
         } else {
 
@@ -744,12 +747,15 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
             }
             textColorValueAnimator.start()
 
-            val iconTintValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), iconTint, iconTintDisabled)
-            iconTintValueAnimator.duration = 150
-            iconTintValueAnimator.addUpdateListener { animator ->
-                binding.imageView.imageTintList = ColorStateList.valueOf(animator.animatedValue as Int)
+            if (iconTint != null && iconTintDisabled != null) {
+
+                val iconTintValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), iconTint, iconTintDisabled)
+                iconTintValueAnimator.duration = 150
+                iconTintValueAnimator.addUpdateListener { animator ->
+                    binding.imageView.imageTintList = ColorStateList.valueOf(animator.animatedValue as Int)
+                }
+                iconTintValueAnimator.start()
             }
-            iconTintValueAnimator.start()
         }
 
         super.setEnabled(enabled)
