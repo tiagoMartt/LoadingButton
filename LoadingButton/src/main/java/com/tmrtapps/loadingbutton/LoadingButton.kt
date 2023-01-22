@@ -376,8 +376,10 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
 
         binding.textView.isAllCaps = textIsAllCaps
 
-        if (textFontFamilyResId != -1) {
-            binding.textView.typeface = ResourcesCompat.getFont(context, textFontFamilyResId)
+        if (!binding.textView.isInEditMode) {
+            if (textFontFamilyResId != -1) {
+                binding.textView.typeface = ResourcesCompat.getFont(context, textFontFamilyResId)
+            }
         }
 
         val constraintSet = ConstraintSet()
