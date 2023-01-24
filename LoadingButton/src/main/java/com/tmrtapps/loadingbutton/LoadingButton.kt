@@ -8,6 +8,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -377,8 +378,14 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
         binding.textView.isAllCaps = textIsAllCaps
 
         if (!binding.textView.isInEditMode) {
+
             if (textFontFamilyResId != -1) {
-                binding.textView.typeface = ResourcesCompat.getFont(context, textFontFamilyResId)
+
+                try {
+                    binding.textView.typeface = ResourcesCompat.getFont(context, textFontFamilyResId)
+                } catch (e: Exception) {
+                    Log.e(LoadingButton::class.java.simpleName, "Unable to load selected font: " + e.message.toString())
+                }
             }
         }
 
